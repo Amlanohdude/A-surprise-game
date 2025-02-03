@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Birthday Puzzle Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f8ff;
+      padding: 20px;
+      text-align: center;
+    }
+    #gameContainer {
+      margin: auto;
+      max-width: 600px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="gameContainer">
+    <h1>Happy Birthday!</h1>
+    <p>Welcome to your birthday puzzle game. Solve the puzzles to reveal your special message.</p>
+    <div id="puzzleSection">
+      <p id="puzzleText"></p>
+      <input type="text" id="answerInput" placeholder="Your answer here" />
+      <br/>
+      <button id="submitBtn">Submit Answer</button>
+      <p id="feedback" style="color: red;"></p>
+    </div>
+    <div id="finalMessage" class="hidden">
+      <h2>Congratulations!</h2>
+      <p>
+        Happy Birthday, my love! Even though we're far apart, you're always in my heart. I hope this little game brings a smile to your face and reminds you of all the wonderful memories we've shared. I can't wait to create more beautiful moments together.
+      </p>
+      <img src="https://via.placeholder.com/300x200?text=Happy+Birthday!" alt="Happy Birthday">
+    </div>
+  </div>
+
+  <script>
+    // Array of puzzles with their questions and answers (case-insensitive)
+    const puzzles = [
+      {
+        question: "Puzzle 1: What is the color of the sky on a clear day?",
+        answer: "blue"
+      },
+      {
+        question: "Puzzle 2: I have keys but no locks, space but no rooms. You can enter, but can't go outside. What am I?",
+        answer: "keyboard"
+      }
+    ];
+
+    let currentPuzzle = 0;
+
+    const puzzleText = document.getElementById('puzzleText');
+    const answerInput = document.getElementById('answerInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const feedback = document.getElementById('feedback');
+    const puzzleSection = document.getElementById('puzzleSection');
+    const finalMessage = document.getElementById('finalMessage');
+
+    // Function to load the current puzzle
+    function loadPuzzle() {
+      if (currentPuzzle < puzzles.length) {
+        puzzleText.textContent = puzzles[currentPuzzle].question;
+        answerInput.value = "";
+        feedback.textContent = "";
+        answerInput.focus();
+      } else {
+        // All puzzles solved, show the final birthday message
+        puzzleSection.classList.add('hidden');
+        finalMessage.classList.remove('hidden');
+      }
+    }
+
+    // Check the answer when the button is clicked
+    submitBtn.addEventListener('click', function() {
+      const userAnswer = answerInput.value.trim().toLowerCase();
+      if (userAnswer === puzzles[currentPuzzle].answer.toLowerCase()) {
+        currentPuzzle++;
+        loadPuzzle();
+      } else {
+        feedback.textContent = "Oops, that's not correct. Try again!";
+      }
+    });
+
+    // Allow submitting the answer with the Enter key
+    answerInput.addEventListener('keyup', function(event) {
+      if (event.key === 'Enter') {
+        submitBtn.click();
+      }
+    });
+
+    // Start the game by loading the first puzzle
+    loadPuzzle();
+  </script>
+</body>
+</html>
